@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news/network/repones/artcles/article.dart';
-
 // ignore: must_be_immutable
 class ArticleItem extends StatelessWidget {
   ArticleItem({super.key, required this.article});
@@ -35,7 +34,7 @@ class ArticleItem extends StatelessWidget {
 
           Row(
             children: [
-              Text(article.author ?? "No Author"),
+              Expanded(child: Text(article.author ?? "No Author")),
               Spacer(),
               Expanded(
                 child: Text(
