@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:news/network/API/api_constants.dart';
 import 'package:news/network/API/api_end_point.dart';
+import 'package:news/network/repones/artcles/article.dart';
 import 'package:news/network/repones/artcles/articles_response.dart';
+import 'package:news/network/repones/sources/source.dart';
 import 'package:news/network/repones/sources/sources_response.dart';
 
 class ApiServices {
-  static Future<SourcesResponse> getAllSources(String category) async {
+  static Future<List<Source>> getAllSources(String category) async {
     var queryParameters = {'apiKey': ApiConstants.apiKey, 'category': category};
     var uri = Uri.https(
       ApiConstants.baseUrl,
@@ -19,10 +21,10 @@ class ApiServices {
 
     SourcesResponse res = SourcesResponse.fromJson(json);
     print(json);
-    return res;
+    return res.sources!;
   }
 
-  static Future<ArticlesResponse> getArticlesNews(String sourcesId) async {
+  static Future<List<Article>> getArticlesNews(String sourcesId) async {
     var queryParameters = {'apiKey': ApiConstants.apiKey, 'sources': sourcesId};
     var uri = Uri.https(
       ApiConstants.baseUrl,
@@ -31,8 +33,8 @@ class ApiServices {
     );
     var response = await http.get(uri);
     var json = jsonDecode(response.body);
-      print(json);
+    print(json);
     ArticlesResponse articlesResponse = ArticlesResponse.fromJson(json);
-    return articlesResponse;
+    return articlesResponse.articles ?? [];
   }
 }

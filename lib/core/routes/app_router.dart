@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news/core/routes/page_routes.dart';
-import 'package:news/modelus/home/pages/home.dart';
+import 'package:news/modelus/home/view/home.dart';
 import 'package:news/modelus/splash/pages/splash_view.dart';
 
 abstract class AppRouter {
