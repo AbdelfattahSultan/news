@@ -1,4 +1,5 @@
-import 'source.dart';
+import 'package:news/network/repones/sources/source.dart';
+
 
 class Article {
   Source? source;

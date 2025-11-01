@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news/gen/assets.gen.dart';
 import 'package:news/models/category_data.dart';
-import 'package:news/modelus/home/pages/articles_list_view.dart';
-import 'package:news/modelus/home/pages/custom_drawer.dart';
+import 'package:news/modelus/home/view/articles_list_view.dart';
+import 'package:news/modelus/home/view/custom_drawer.dart';
 import 'package:news/modelus/home/widget/category_item.dart';
 
 class Home extends StatefulWidget {
