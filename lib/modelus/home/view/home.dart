@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news/core/routes/page_routes.dart';
 import 'package:news/gen/assets.gen.dart';
 import 'package:news/models/category_data.dart';
 import 'package:news/modelus/home/view/articles_list_view.dart';
@@ -26,7 +27,17 @@ class _HomeState extends State<Home> {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Image.asset(Assets.icons.searchIcn.path, color: Colors.black),
+            icon: selectedCategory != null
+                ? InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, PageRoutesName.search);
+                    },
+                    child: Image.asset(
+                      Assets.icons.searchIcn.path,
+                      color: Colors.black,
+                    ),
+                  )
+                : SizedBox(width: 10),
           ),
         ],
       ),

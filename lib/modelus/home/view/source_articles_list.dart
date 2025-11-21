@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:news/modelus/home/view_model/articles_view_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news/modelus/home/view_model/articles_cubit/articles_cubit.dart';
+import 'package:news/modelus/home/view_model/articles_cubit/articles_cubit_state.dart';
 import 'package:news/modelus/home/widget/article_item.dart';
-import 'package:news/network/API/api_services.dart';
 import 'package:news/network/repones/artcles/article.dart';
-import 'package:provider/provider.dart';
+import 'package:news/network/API/services/api_services.dart';
 
 class SourceArticlesList extends StatefulWidget {
   final String sourceId;
@@ -19,21 +20,30 @@ class _SourceArticlesListState extends State<SourceArticlesList> {
   @override
   void initState() {
     super.initState();
-    articlesFuture = ApiServices.getArticlesNews(widget.sourceId);
+    articlesFuture = ApiServices().getArticlesNews(widget.sourceId);
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ArticlesViewModel()..getAllArticles(widget.sourceId),
-      child: Consumer<ArticlesViewModel>(
-        builder: (context, value, child) {
-          return ListView.builder(
-            itemCount: value.articles.length,
-            itemBuilder: (context, index) {
-              return ArticleItem(article: value.articles[index]);
-            },
-          );
+    return BlocProvider(
+      create: (context) => ArticlesCubit()..getAllArticles(widget.sourceId),
+      child: BlocBuilder<ArticlesCubit, ArticlesCubitState>(
+        builder: (context, articleState) {
+          if (articleState is ArticlesLoadingState) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (articleState is ArticlesErrorState) {
+            return Center(child: Text(articleState.message));
+          } else if (articleState is ArticlesSuccessState) {
+            return ListView.builder(
+              itemCount: articleState.article.length,
+              itemBuilder: (context, index) {
+                return ArticleItem(article: articleState.article[index]);
+              },
+            );
+          } else {
+            return SizedBox();
+          }
         },
       ),
     );
